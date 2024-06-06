@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -34,15 +35,13 @@ fun HomeView(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 32.dp),
-        topBar = { AppBarView(title = "Wish List",{
-            Toast.makeText(context,"Wish List",Toast.LENGTH_SHORT).show()
-        })},
+        topBar = { AppBarView(title = "Wish List")},
         floatingActionButton = {
             FloatingActionButton(
                 modifier = Modifier.padding(20.dp),
                 contentColor = Color.White,
                 backgroundColor = Color.Black,
-                onClick = { navController.navigate(Screen.AddScreen.route) }
+                onClick = { navController.navigate(Screen.AddScreen.route) },
                 ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
 
@@ -53,9 +52,7 @@ fun HomeView(
             .fillMaxSize()
             .padding(it)) {
             items(DummyWish.wishList){
-                    wish -> WishItem(wish = wish) {
-
-                }
+                    wish -> WishItem(wish = wish){}
             }
 
         }
