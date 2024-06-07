@@ -1,7 +1,10 @@
 package com.example.wishlist
 
 import android.widget.Toast
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,15 +12,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Card
+import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissValue
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.rememberDismissState
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -27,6 +41,7 @@ import androidx.navigation.NavController
 import com.example.wishlist.data.DummyWish
 import com.example.wishlist.data.Wish
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeView(
     navController: NavController,
@@ -53,11 +68,52 @@ fun HomeView(
         LazyColumn(modifier = Modifier
             .fillMaxSize()
             .padding(it)) {
+
+            //items(wishList.value,key = {wish -> wish.id}) one point related to wish -> wish.id --> vacant space
             items(wishList.value){
-                wish -> WishItem(wish = wish){
-                    val id = wish.id
-                    navController.navigate(Screen.AddScreen.route + "/$id")
-                }
+                //state doesn't work with var
+                wish ->
+                val dismissState = rememberDismissState(
+                    confirmStateChange = {
+                        if (it == DismissValue.DismissedToEnd || it == DismissValue.DismissedToStart) {
+                            viewModel.deleteWish(wish)
+                            Toast.makeText(context, "Item Deleted", Toast.LENGTH_SHORT).show()
+                        }
+                        //This true is very important without this won't work
+                        true
+                    }
+                )
+
+                SwipeToDismiss(
+                    state = dismissState,
+                    background = {
+                        val color by animateColorAsState(
+                            if (dismissState.dismissDirection == DismissDirection.EndToStart) Color.Red else Color.Transparent
+                        , label = "")
+                        val alignment = Alignment.CenterEnd
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color)
+                                .padding(horizontal = 20.dp),
+                            contentAlignment = alignment
+                        ){
+
+                            Icon(Icons.Default.Delete,contentDescription = null,tint = Color.White)
+                        }
+                    },
+                    directions = setOf( DismissDirection.EndToStart),
+                    dismissThresholds = {
+                        FractionalThreshold(10f)
+                    },
+                    dismissContent ={
+                        WishItem(wish = wish){
+                            val id = wish.id
+                            navController.navigate(Screen.AddScreen.route + "/$id")
+                        }
+                    }
+                )
+
             }
         }
     }
