@@ -8,6 +8,4 @@ class WishListApp: Application() {
         super.onCreate()
         Graph.provide(this)
     }
-
-
 }
