@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.wishlist.data.Graph
 import com.example.wishlist.data.Wish
 import com.example.wishlist.data.WishRepository
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class WishViewModel(
-    private val wishRepository: WishRepository
+    private val wishRepository: WishRepository = Graph.wishRepository
 ): ViewModel() {
     var wishTitleState by mutableStateOf("")
     var wishDescriptionState by mutableStateOf("")
