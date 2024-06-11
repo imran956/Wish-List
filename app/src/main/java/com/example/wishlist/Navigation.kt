@@ -32,9 +32,9 @@ fun Navigation(
                     nullable = false
                 }
             )
-        ) {entry ->
+        ) { entry ->
             //The getLong() method takes a string key as an argument and returns the corresponding long value.
-            val id = if (entry.arguments!=null) entry.arguments!!.getLong("id") else 0L
+            val id = if (entry.arguments != null) entry.arguments!!.getLong("id") else 0L
             AddEditDetailView(id = id, viewModel = viewModel, navController = navController)
         }
     }

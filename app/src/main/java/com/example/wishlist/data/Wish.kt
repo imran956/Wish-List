@@ -7,14 +7,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "wish-table")
 data class Wish(
     @PrimaryKey(autoGenerate = true)
-    val id:Long =0L,
+    val id: Long = 0L,
     @ColumnInfo(name = "wish-title")
-    var title:String = "",
+    var title: String = "",
     @ColumnInfo(name = "wish-description")
-    var description:String = ""
+    var description: String = ""
 )
 
-object DummyWish{
+object DummyWish {
     val wishList = listOf(
         Wish(title = "title 1", description = "description 1"),
         Wish(title = "title 2", description = "description 2"),

@@ -20,9 +20,9 @@ import androidx.compose.ui.unit.dp
 fun AppBarView(
     title: String,
     onBackNavClicked: () -> Unit = {}
-){
-    val navigationIcon : (@Composable () -> Unit)? =
-        if (!title.contains("Wish List")){
+) {
+    val navigationIcon: (@Composable () -> Unit)? =
+        if (!title.contains("Wish List")) {
             {
                 IconButton(onClick = { onBackNavClicked() }) {
                     Icon(
@@ -32,17 +32,22 @@ fun AppBarView(
                     )
                 }
             }
-        }else{
+        } else {
             null
         }
 
-    TopAppBar(title = { Text(
-        text = title,
-        color = colorResource(id = R.color.white),
-        modifier = Modifier
-            .padding(start = 4.dp)
-            .heightIn(max = 24.dp)) },
+    TopAppBar(
+        title = {
+            Text(
+                text = title,
+                color = colorResource(id = R.color.white),
+                modifier = Modifier
+                    .padding(start = 4.dp)
+                    .heightIn(max = 24.dp)
+            )
+        },
         elevation = 3.dp,
         backgroundColor = colorResource(id = R.color.app_bar_color),
-        navigationIcon = navigationIcon)
+        navigationIcon = navigationIcon
+    )
 }

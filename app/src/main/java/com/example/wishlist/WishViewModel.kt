@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class WishViewModel(
     private val wishRepository: WishRepository = Graph.wishRepository
-): ViewModel() {
+) : ViewModel() {
     var wishTitleState by mutableStateOf("")
     var wishDescriptionState by mutableStateOf("")
 
@@ -41,24 +41,24 @@ class WishViewModel(
     fun addWish(wish: Wish) {
         //Dispatchers.IO is used to enhance the performance of the application.
         // It will tell on which thread this funtion has to run in this way reduce CPU usage.
-        viewModelScope.launch (Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             wishRepository.addAWish(wish)
         }
     }
 
-    fun deleteWish(wish:Wish){
+    fun deleteWish(wish: Wish) {
         viewModelScope.launch(Dispatchers.IO) {
             wishRepository.deleteAWish(wish)
         }
     }
 
-    fun  updateWish(wish:Wish){
+    fun updateWish(wish: Wish) {
         viewModelScope.launch(Dispatchers.IO) {
             wishRepository.updateAWish(wish)
         }
     }
 
-    fun getAWishById(id:Long): Flow<Wish>{
+    fun getAWishById(id: Long): Flow<Wish> {
         return wishRepository.getAWishById(id)
     }
 }

@@ -13,7 +13,7 @@ object Graph {
         WishRepository(wishDao = database.wishDao())
     }
 
-    fun provide (context: Context){
-        database = Room.databaseBuilder(context,WishDatabase::class.java,"wishlist.db").build()
+    fun provide(context: Context) {
+        database = Room.databaseBuilder(context, WishDatabase::class.java, "wishlist.db").build()
     }
 }

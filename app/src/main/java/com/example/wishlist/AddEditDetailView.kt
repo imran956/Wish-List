@@ -38,10 +38,10 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AddEditDetailView(
-     id: Long,
-     viewModel: WishViewModel,
-     navController: NavController
-){
+    id: Long,
+    viewModel: WishViewModel,
+    navController: NavController
+) {
 
     val snackMessage = remember {
         mutableStateOf("")
@@ -49,44 +49,48 @@ fun AddEditDetailView(
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
-    if (id != 0L){
-        val wish = viewModel.getAWishById(id).collectAsState(initial = Wish(0L,"",""))
+    if (id != 0L) {
+        val wish = viewModel.getAWishById(id).collectAsState(initial = Wish(0L, "", ""))
         viewModel.wishTitleState = wish.value.title
         viewModel.wishDescriptionState = wish.value.description
-    }else{
+    } else {
         viewModel.wishTitleState = ""
         viewModel.wishDescriptionState = ""
     }
 
-    Scaffold (
+    Scaffold(
         modifier = Modifier.padding(),
         topBar = {
             AppBarView(
-                title = if (id != 0L)  stringResource(id = R.string.update_wish) else stringResource(id = R.string.add_wish),
-                onBackNavClicked =  {
+                title = if (id != 0L) stringResource(id = R.string.update_wish) else stringResource(
+                    id = R.string.add_wish
+                ),
+                onBackNavClicked = {
                     navController.navigateUp()
                 }
             )
         },
         scaffoldState = scaffoldState
-    ){
+    ) {
 
         Column(
             modifier = Modifier
                 .padding(it)
                 .wrapContentSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center) {
+            verticalArrangement = Arrangement.Center
+        ) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
             wishTextField(
                 label = "Title",
-                value = viewModel.wishTitleState){
+                value = viewModel.wishTitleState
+            ) {
 //                viewModel.wishTitleState = it
                 viewModel.updateWishTitle(it)
             }
-            
+
             Spacer(modifier = Modifier.height(10.dp))
 
             wishTextField(
@@ -97,25 +101,29 @@ fun AddEditDetailView(
                 })
 
             Spacer(modifier = Modifier.height(10.dp))
-            
+
             Button(onClick = {
-                if (viewModel.wishTitleState.isNotEmpty() && viewModel.wishDescriptionState.isNotEmpty()){
-                    if (id != 0L){
+                if (viewModel.wishTitleState.isNotEmpty() && viewModel.wishDescriptionState.isNotEmpty()) {
+                    if (id != 0L) {
                         //TODO Update wish
-                        viewModel.updateWish(Wish(
-                            id = id,
-                            title = viewModel.wishTitleState.trim(),
-                            description = viewModel.wishDescriptionState.trim()
-                        ))
-                    }else{
+                        viewModel.updateWish(
+                            Wish(
+                                id = id,
+                                title = viewModel.wishTitleState.trim(),
+                                description = viewModel.wishDescriptionState.trim()
+                            )
+                        )
+                    } else {
                         //TODO Add wish
-                        viewModel.addWish(Wish(
-                            title = viewModel.wishTitleState.trim(),
-                            description = viewModel.wishDescriptionState.trim()
-                        ))
+                        viewModel.addWish(
+                            Wish(
+                                title = viewModel.wishTitleState.trim(),
+                                description = viewModel.wishDescriptionState.trim()
+                            )
+                        )
                         snackMessage.value = "Wish added successfully"
                     }
-                }else{
+                } else {
                     //Enter a wish to be created
                     snackMessage.value = "Enter a wish to be created"
                 }
@@ -125,7 +133,9 @@ fun AddEditDetailView(
                 }
             }) {
                 Text(
-                    text = if (id != 0L) stringResource(id = R.string.update_wish) else stringResource(id = R.string.add_wish),
+                    text = if (id != 0L) stringResource(id = R.string.update_wish) else stringResource(
+                        id = R.string.add_wish
+                    ),
                     style = TextStyle(fontSize = 18.sp)
                 )
             }
@@ -136,12 +146,12 @@ fun AddEditDetailView(
 
 @Composable
 fun wishTextField(
-    label:String,
-    value:String,
-    onValueChange:(String) -> Unit
-){
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
     OutlinedTextField(
-        label = { Text(text = label, color = Color.Black)},
+        label = { Text(text = label, color = Color.Black) },
         value = value,
         onValueChange = onValueChange,
         modifier = Modifier.fillMaxWidth(),

@@ -42,34 +42,37 @@ import com.example.wishlist.data.Wish
 @Composable
 fun HomeView(
     navController: NavController,
-    viewModel: WishViewModel){
+    viewModel: WishViewModel
+) {
     val context = LocalContext.current
-    Scaffold (
+    Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .padding(),
-        topBar = { AppBarView(title = "Wish List")},
+        topBar = { AppBarView(title = "Wish List") },
         floatingActionButton = {
             FloatingActionButton(
                 modifier = Modifier.padding(20.dp),
                 contentColor = Color.White,
                 backgroundColor = Color.LightGray,
                 onClick = { navController.navigate(Screen.AddScreen.route + "/0L") },
-                ) {
+            ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
 
             }
         }
-    ){
+    ) {
         val wishList = viewModel.getAllWishes.collectAsState(initial = listOf())
-        LazyColumn(modifier = Modifier
-            .fillMaxSize()
-            .padding(it)) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
 
             //items(wishList.value,key = {wish -> wish.id}) one point related to wish -> wish.id --> vacant space
-            items(wishList.value){
+            items(wishList.value) {
                 //state doesn't work with var
-                wish ->
+                    wish ->
                 val dismissState = rememberDismissState(
                     confirmStateChange = {
                         if (it == DismissValue.DismissedToEnd || it == DismissValue.DismissedToStart) {
@@ -85,8 +88,9 @@ fun HomeView(
                     state = dismissState,
                     background = {
                         val color by animateColorAsState(
-                            if (dismissState.dismissDirection == DismissDirection.EndToStart) Color.Red else Color.Transparent
-                        , label = "")
+                            if (dismissState.dismissDirection == DismissDirection.EndToStart) Color.Red else Color.Transparent,
+                            label = ""
+                        )
                         val alignment = Alignment.CenterEnd
                         Box(
                             modifier = Modifier
@@ -94,17 +98,21 @@ fun HomeView(
                                 .background(color)
                                 .padding(horizontal = 20.dp),
                             contentAlignment = alignment
-                        ){
+                        ) {
 
-                            Icon(Icons.Default.Delete,contentDescription = null,tint = Color.White)
+                            Icon(
+                                Icons.Default.Delete,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
                         }
                     },
-                    directions = setOf( DismissDirection.EndToStart),
+                    directions = setOf(DismissDirection.EndToStart),
                     dismissThresholds = {
                         FractionalThreshold(10f)
                     },
-                    dismissContent ={
-                        WishItem(wish = wish){
+                    dismissContent = {
+                        WishItem(wish = wish) {
                             val id = wish.id
                             navController.navigate(Screen.AddScreen.route + "/$id")
                         }
@@ -117,7 +125,7 @@ fun HomeView(
 }
 
 @Composable
-fun WishItem(wish: Wish, onClick:()-> Unit){
+fun WishItem(wish: Wish, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
