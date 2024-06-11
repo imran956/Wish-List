@@ -16,7 +16,7 @@ import com.example.wishlist.ui.theme.WishListTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
         setContent {
             WishListTheme {
 //                HomeView()

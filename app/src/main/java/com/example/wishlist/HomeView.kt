@@ -47,13 +47,13 @@ fun HomeView(
     Scaffold (
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 32.dp),
+            .padding(),
         topBar = { AppBarView(title = "Wish List")},
         floatingActionButton = {
             FloatingActionButton(
                 modifier = Modifier.padding(20.dp),
                 contentColor = Color.White,
-                backgroundColor = Color.Black,
+                backgroundColor = Color.LightGray,
                 onClick = { navController.navigate(Screen.AddScreen.route + "/0L") },
                 ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
